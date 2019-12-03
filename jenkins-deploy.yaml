@@ -1,0 +1,30 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: jenkins-deploy
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: jenkins
+  template:
+    metadata:
+      labels:
+        app: jenkins
+    spec:
+      containers: 
+      - args:
+        - /root/compile/patch_jenkins.sh
+        name: jenkins
+        image: docker.io/r3sum35/jenkins-arm:v8
+        imagePullPolicy: IfNotPresent
+        ports:
+        - containerPort: 8080
+          protocol: TCP 
+        volumeMounts:
+        - name: jenkins-volume
+          mountPath: /root/.jenkins
+      volumes:
+        - name: jenkins-volume
+          hostPath: 
+            path: /KubeStorage/pv-jenkins-deployment

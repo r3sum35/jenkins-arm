@@ -1,0 +1,18 @@
+apiVersion: v1
+kind: Pod
+metadata:
+  labels:
+    run: jenkins
+  name: jenkins-prod
+  namespace: default
+spec:
+  containers:
+  - args:
+    - /root/compile/patch_jenkins.sh
+    image: docker.io/r3sum35/jenkins-arm:v6
+    imagePullPolicy: IfNotPresent
+    name: jenkins
+    ports:
+    - containerPort: 8080
+      protocol: TCP 
+
